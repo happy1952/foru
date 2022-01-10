@@ -32,6 +32,10 @@ def sigin():
         return render_template('signin-ok.html', username=username)
     return render_template('signin.html', message='Bad username or password.', username=username)
 
+@app.route('/html2canvas', methods=['GET'])
+def html2canvas():
+    return render_template('html2canvas.html')
+
 @app.route('/upload', methods=['GET'])
 def upload_form():
     return render_template('upload.html')
@@ -82,4 +86,4 @@ def random_filename(filename):
     return new_filename
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="192.168.33.10", port=8084)

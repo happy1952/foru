@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html2canvas</title>
+    <style>
+        h1 {
+            margin: 20px 0;
+            font-size: 36px;
+        }
+
+        a {
+            font-size: 18px;
+            font-weight: 500;
+            color: springgreen;
+            text-decoration: none;
+        }
+
+        p {
+            font-size: 18px;
+            color: rebeccapurple;
+        }
+
+        img {
+            border: 3px dotted seagreen;
+        }
+
+        .container {
+            margin: 15px 0;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .download-btn {
+            padding: 10px 30px;
+            display: inline-block;
+            cursor: pointer;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Html2Canvas</h1>
+        <p>这是一个演示页。</p>
+        <img src="./static/918.png" alt="918" width="100" height="100">
+        <img src="./static/918.png" alt="918" width="100" height="100">
+        <img src="./static/918.png" alt="918" width="100" height="100">
+        <p class="hidden">隐藏文本</p>
+    </div>
+    <div class="footer">
+        <a class="download-btn" href="" download="downImg">保存图片</a>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+    <script>
+        var canvas2 = document.createElement("canvas")
+        var _canvas = document.querySelector("div")
+        var w = parseInt(window.getComputedStyle(_canvas).width)
+        var h = parseInt(window.getComputedStyle(_canvas).height)
+        canvas2.width = w * 2
+        canvas2.height = h * 2
+        canvas2.style.width = w + "px"
+        canvas2.style.height = h + "px"
+        var content = canvas2.getContext("2d")
+        html2canvas(document.getElementById('container'), { canvas: canvas2 }).then(function (canvas) {
+            document.querySelector(".download-btn").setAttribute("href", canvas.toDataURL())
+        })
+    </script>
+    <script>
+        $(function () {
+            $(".download-btn").click(function () {
+                // html2canvas 接收一个 DOM 元素，而不是 jQuery DOM 对象
+                // html2canvas($(".test")[0]).then(function (canvas) {
+                html2canvas(document.getElementById("container")).then(function (canvas) {
+                    var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    // window.location.href = imgUri;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
