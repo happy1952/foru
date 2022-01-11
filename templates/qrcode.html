@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qrcode</title>
+    <style>
+        input {
+            width: 650px;
+            height: 60px;
+            margin: 20px 0;
+            font-size: 24px;
+            display: inline-block;
+            border-radius: 5px;
+            padding: 0 10px;
+            border: 1px solid #ddd;
+            background-color: #fff !important;
+            box-shadow: 5px 5px 8px #ff00aa;
+        }
+        button {
+            width: 180px;
+            height: 60px;
+            margin-left: 20px;
+            background-color: #fff;
+            font-size: 24px;
+            font-weight: 500;
+            cursor: pointer;
+            color: springgreen;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 5px 5px 8px springgreen;
+        }
+        #qrcode-img>img {
+            margin: 20px 0;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" name="qrcode" id="qrcode-text" placeholder="请输入要生成二维码的内容...">
+    <button id="makeQrcode">生成二维码</button>
+    <div id="qrcode-img"></div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        $(function() {
+            var qrcode = new QRCode("qrcode-img", {
+                text: "https://www.runoob.com/",
+                with: 256,
+                height: 256,
+                colorDark: "#00ffcc", // #000000
+                colorLight: "#ff00cc", // #ffffff
+                correctLevel: QRCode.CorrectLevel.H
+            })
+            function makeCode(text) {
+                if (!text) {
+                    alert("Input a Text!")
+                    return;
+                }
+                qrcode.clear()
+                qrcode.makeCode(text)
+            }
+            $("#makeQrcode").click(function() {
+                var elText = $("#qrcode-text")
+                if (!elText.val()) {
+                    alert("Input a Text!")
+                    elText.focus()
+                    return;
+                }
+                makeCode(elText.val())
+            })
+            $("#qrcode-text").
+                on("blur", function() {
+                    var that = $(this)
+                    if (!that.val()) {
+                        that.focus()
+                        return;
+                    }
+                    makeCode(that.val())
+                }).
+                on("keydown", function(e) {
+                    if (e.keyCode == 13) {
+                        var that = $(this)
+                        if (!that.val()) {
+                            that.focus()
+                            return;
+                        }
+                        makeCode(that.val())
+                    }
+                })
+        })
+    </script>
+</body>
+</html>

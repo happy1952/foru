@@ -28,10 +28,21 @@
             border: 3px dotted seagreen;
         }
 
-        .container {
-            margin: 15px 0;
+        #container {
+            width: 650px;
+            height: auto;
+            text-align: center;
+            margin: 15px auto;
             padding-left: 15px;
             padding-right: 15px;
+            padding-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: rgba(10, 230, 150, 0.3);
+        }
+
+        .text {
+            text-shadow: 3px 3px 5px #000;
         }
 
         .download-btn {
@@ -41,10 +52,15 @@
             border: 1px solid #eee;
             border-radius: 5px;
             background-color: #fff;
+            box-shadow: 3px 3px 8px springgreen;
         }
 
         .hidden {
             display: none;
+        }
+
+        .footer {
+            text-align: center;
         }
     </style>
 </head>
@@ -52,7 +68,7 @@
 <body>
     <div id="container">
         <h1>Html2Canvas</h1>
-        <p>这是一个演示页。</p>
+        <p class="text">这是一个演示页。</p>
         <img src="./static/918.png" alt="918" width="100" height="100">
         <img src="./static/918.png" alt="918" width="100" height="100">
         <img src="./static/918.png" alt="918" width="100" height="100">
@@ -64,30 +80,29 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
     <script>
-        var canvas2 = document.createElement("canvas")
-        var _canvas = document.querySelector("div")
-        var w = parseInt(window.getComputedStyle(_canvas).width)
-        var h = parseInt(window.getComputedStyle(_canvas).height)
-        canvas2.width = w * 2
-        canvas2.height = h * 2
-        canvas2.style.width = w + "px"
-        canvas2.style.height = h + "px"
-        var content = canvas2.getContext("2d")
-        html2canvas(document.getElementById('container'), { canvas: canvas2 }).then(function (canvas) {
-            document.querySelector(".download-btn").setAttribute("href", canvas.toDataURL())
-        })
-    </script>
-    <script>
+        // 方案一
         $(function () {
-            $(".download-btn").click(function () {
-                // html2canvas 接收一个 DOM 元素，而不是 jQuery DOM 对象
-                // html2canvas($(".test")[0]).then(function (canvas) {
-                html2canvas(document.getElementById("container")).then(function (canvas) {
-                    var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                    // window.location.href = imgUri;
-                });
-            });
-        });
+            var canvas2 = document.createElement("canvas")
+            var _canvas = document.getElementById("container")
+            // 不包括 padding 和 border 的值
+            // var w = parseInt(window.getComputedStyle(_canvas, null).width)
+            // var h = parseInt(window.getComputedStyle(_canvas, null).height)
+            // 包括 padding 和 border 的值
+            var w = parseInt(_canvas.offsetWidth)
+            var h = parseInt(_canvas.offsetHeight)
+            canvas2.width = w * 2
+            canvas2.height = h * 2
+            canvas2.style.width = w + "px"
+            canvas2.style.height = h + "px"
+            var context = canvas2.getContext("2d")
+            // 缩放
+            // context.scale(2, 2)
+            // 透明，取值范围0～1，0透明，1不透明
+            context.globalAlpha = 0.8
+            html2canvas(document.getElementById('container'), { canvas: canvas2 }).then(function (canvas) {
+                document.querySelector(".download-btn").setAttribute("href", canvas.toDataURL())
+            })
+        })
     </script>
 </body>
 

@@ -36,6 +36,10 @@ def sigin():
 def html2canvas():
     return render_template('html2canvas.html')
 
+@app.route('/qrcode', methods=['GET'])
+def qrcode():
+    return render_template('qrcode.html')
+
 @app.route('/upload', methods=['GET'])
 def upload_form():
     return render_template('upload.html')
