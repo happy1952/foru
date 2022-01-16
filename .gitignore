@@ -1,2 +1,3 @@
-./upload/*
-./static/*
+.user.ini
+upload/
+static/
